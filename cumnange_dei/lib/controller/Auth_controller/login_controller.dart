@@ -10,7 +10,6 @@ class LoginController extends GetxController {
   final controllerUsername = TextEditingController();
   final controllerEmail = TextEditingController();
   final controllerPassword = TextEditingController();
-  
   var usernameDisplay = "".obs;
   var isLoading = false.obs;
 

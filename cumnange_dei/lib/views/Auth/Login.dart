@@ -27,7 +27,12 @@ class _LoginState extends State<Login> {
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight
-                   )
+                   ),
+                   image: DecorationImage(
+                    image:AssetImage("assets/image/Login.png"),
+                    fit: BoxFit.cover,
+                    opacity: 0.4,
+                     ),
               ),
             ),
             Align(

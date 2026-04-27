@@ -30,8 +30,8 @@ class WelcomeScreen extends StatelessWidget {
             top: 80,
             left: 0,
             right: 0,
-            child: Image.network(
-              "https://cdn-icons-png.flaticon.com/512/1048/1048953.png",
+            child: Image.asset(
+              "assets/image/welcome.png",
               height: 200,
             ),
           ),
@@ -66,7 +66,7 @@ class WelcomeScreen extends StatelessWidget {
 
                   // Subtitle
                   Text(
-                    "កម្មវិធីកត់ចំណងដៃឆ្លាតវៃ និងងាយស្រួលដេីម្បីគ្របគ្រងទិន្និន័យ",
+                    "កម្មវិធីកត់ចំណងដៃឆ្លាតវៃ និងងាយស្រួលដេីម្បីគ្រប់គ្រងទិន្និន័យ",
                     style: GoogleFonts.kantumruyPro(
                       fontSize: 20,
                       color: Colors.grey[600],

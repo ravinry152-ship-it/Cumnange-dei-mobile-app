@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 import 'package:cumnange_dei/controller/system_List/system_list_controller.dart';
+import 'package:cumnange_dei/views/AI/image_to_json.dart';
 import 'package:cumnange_dei/views/Auth/Login.dart';
 import 'package:cumnange_dei/views/Crud/user_data.dart';
 import 'package:flutter/material.dart';
@@ -53,9 +54,75 @@ class SystemList extends StatelessWidget {
             ),
             ),
             onTap: (){
-              Get.to(Login());
+              Get.defaultDialog(
+                title: "ចាកចេញពីគណនី",
+               titleStyle: GoogleFonts.kantumruyPro(
+              fontWeight: FontWeight.bold
+           ),
+            middleText: "តើអ្នកពិតជាចង់ចាកចេញពីគណនីមែនទេ?",
+            middleTextStyle: GoogleFonts.kantumruyPro(fontWeight: FontWeight.bold),
+            confirm: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black12
+              ),
+              onPressed: (){
+                Get.to(Login());
+              },
+                child: Text(
+                  "ចាកចេញ",
+                  style: GoogleFonts.kantumruyPro(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red
+                  ),
+
+                ) 
+              ),
+              cancel: ElevatedButton(
+                onPressed:() {
+                  Get.back();
+                }, 
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black12 
+                ),
+                child:Text(
+                  "បោះបង់",
+                  style: GoogleFonts.kantumruyPro(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red,
+                    )
+                    
+                 ),
+              ),
+              );
             },
           ),
+              ),
+            ),
+            SizedBox(height: 10,),
+            Card(
+              child: Material(
+                borderRadius: BorderRadius.circular(10),
+                elevation: 4,
+                child: ListTile(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  tileColor: Colors.white,
+            leading: CircleAvatar(
+            backgroundColor: Colors.deepOrange.withOpacity(0.1),
+            child: Icon(Icons.person),
+          ),
+          title: Text(
+            "ជំនួយការពិសេស",
+            style: GoogleFonts.kantumruyPro(
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+            ),
+            onTap: (){
+              Get.to(ImageToJson());
+            },
+                ),
               ),
             ),
             SizedBox(height: 10,),

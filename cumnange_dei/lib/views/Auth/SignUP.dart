@@ -27,7 +27,12 @@ class _SignupState extends State<Signup> {
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight
-                   )
+                   ),
+                   image: DecorationImage(
+                    image:AssetImage("assets/image/Logo1.jpg"),
+                    fit: BoxFit.cover,
+                    opacity: 0.4
+                     ),
               ),
             ),
             Align(
