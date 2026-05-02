@@ -22,3 +22,16 @@ subprojects {
 tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }
+
+subprojects {
+    val project = this
+    if (project.name == "open_document") {
+        project.plugins.withType<com.android.build.gradle.LibraryPlugin> {
+            project.extensions.configure<com.android.build.api.variant.LibraryAndroidComponentsExtension> {
+                finalizeDsl { dsl ->
+                    dsl.namespace = "lib.lucas.open_document"
+                }
+            }
+        }
+    }
+}

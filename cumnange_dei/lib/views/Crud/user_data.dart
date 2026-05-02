@@ -17,8 +17,15 @@ class UserData extends StatefulWidget {
 class _UserDataState extends State<UserData> {
   final TextEditingController _searchController = TextEditingController();
   final UserDataController controller = Get.put(UserDataController());
-  final PostuserDataController postcontroller= Get.put(PostuserDataController());
-  final DetailUserData  c = Get.put(DetailUserData());
+  final PostuserDataController postcontroller = Get.put(PostuserDataController());
+  final DetailUserData c = Get.put(DetailUserData());
+
+  double get _totalPrice {
+    return controller.filteredUserdata.fold(0.0, (sum, item) {
+      return sum + (double.tryParse(item.price.toString()) ?? 0.0);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +62,6 @@ class _UserDataState extends State<UserData> {
           const SizedBox(width: 5),
         ],
       ),
-      // ប្រើ Obx ដើម្បីឱ្យវា Refresh នៅពេល userdata ក្នុង controller ប្រែប្រួល
       body: Obx(() {
         if (controller.isLoading.value) {
           return const Center(child: CircularProgressIndicator(color: Colors.orange));
@@ -96,47 +102,76 @@ class _UserDataState extends State<UserData> {
                         DataColumn(label: _headerText("ទឹកប្រាក់")),
                         DataColumn(label: _headerText("សកម្មភាពភ្ញៀវ")),
                       ],
-                      // ហៅទិន្នន័យពី controller.userdata
-                     rows: controller.filteredUserdata.asMap().entries.map((entry) {
-                       int index = entry.key; // ទាញយកលេខលំដាប់ (ចាប់ផ្តើមពី 0)
-                       var user = entry.value; // ទាញយកទិន្នន័យ user នីមួយៗ
-                       return DataRow(cells: [
-                         DataCell(Text((index + 1).toString(), style: GoogleFonts.kantumruyPro(
-                        fontWeight: FontWeight.bold
-                         ))),
-      
-                         DataCell(Text(user.name ?? '', style: GoogleFonts.kantumruyPro(
-                           fontWeight: FontWeight.bold
-                         ))),
-      
-                         DataCell(Text(user.village ?? '', style: GoogleFonts.kantumruyPro(
-                           fontWeight: FontWeight.bold
-                         ))),
-      
-                         DataCell(Text("${user.price} ៛",
-                          style: GoogleFonts.kantumruyPro(
-                          color: Colors.green, fontWeight: FontWeight.bold))),
-                         DataCell(
-                           Row(
-                             children: [
-                               IconButton(
-                                 onPressed: (){
-                                   postcontroller.setInitialData(user);
-                                 Get.to(PostData());
-                               },
-                                 icon: const Icon(Icons.edit, color: Colors.blue, size: 20),
-                               ),
-                                  IconButton(
-                                 onPressed: () => _deleteUser(user),
-                                icon: const Icon(Icons.delete, color: Colors.red, size: 20),
-                               ),
-                             ],
-                           ),
-                         ),
-                       ]);
-                   }).toList(),
+                      rows: controller.filteredUserdata.asMap().entries.map((entry) {
+                        int index = entry.key;
+                        var user = entry.value;
+                        return DataRow(cells: [
+                          DataCell(Text((index + 1).toString(), style: GoogleFonts.kantumruyPro(fontWeight: FontWeight.bold))),
+                          DataCell(Text(user.name ?? '', style: GoogleFonts.kantumruyPro(fontWeight: FontWeight.bold))),
+                          DataCell(Text(user.village ?? '', style: GoogleFonts.kantumruyPro(fontWeight: FontWeight.bold))),
+                          DataCell(Text(
+                            "${user.price} ៛",
+                            style: GoogleFonts.kantumruyPro(color: Colors.green, fontWeight: FontWeight.bold),
+                          )),
+                          DataCell(
+                            Row(
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    postcontroller.setInitialData(user);
+                                    Get.to( PostData());
+                                  },
+                                  icon: const Icon(Icons.edit, color: Colors.blue, size: 20),
+                                ),
+                                IconButton(
+                                  onPressed: () => _deleteUser(user),
+                                  icon: const Icon(Icons.delete, color: Colors.red, size: 20),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ]);
+                      }).toList(),
                     ),
                   ),
+                ),
+              ),
+            ),
+            
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border(top: BorderSide(color: Colors.grey[300]!, width: 0.5)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    offset: const Offset(0, -2),
+                    blurRadius: 4,
+                  ),
+                ],
+              ),
+              child: SafeArea(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "ទឹកប្រាក់សរុប:",
+                      style: GoogleFonts.kantumruyPro(
+                        fontSize: 16, 
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black87
+                      ),
+                    ),
+                    Text(
+                      "${_totalPrice.toStringAsFixed(0)} ៛",
+                      style: GoogleFonts.kantumruyPro(
+                        fontSize: 20, 
+                        color: Colors.orange[900], 
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -146,27 +181,22 @@ class _UserDataState extends State<UserData> {
     );
   }
 
-  // ======= Logic Functions =======
-
-
   void _deleteUser(dynamic user) {
-  Get.defaultDialog(
-    title: "បញ្ជាក់ការលុប",
-    titleStyle: GoogleFonts.kantumruyPro(
-      fontWeight: FontWeight.bold
-    ),
-    middleText: "តើអ្នកពិតជាចង់លុបទិន្នន័យរបស់ ${user.name} មែនទេ?",
-    middleTextStyle: GoogleFonts.kantumruyPro(fontWeight: FontWeight.bold),
-    textConfirm: "លុប",
-    textCancel: "បោះបង់",
-    confirmTextColor: Colors.white,
-    buttonColor: Colors.red,
-    onConfirm: () {
-      Get.back(); // បិទ Dialog
-      c.deleteData(user.id);
-    },
-  );
-}
+    Get.defaultDialog(
+      title: "បញ្ជាក់ការលុប",
+      titleStyle: GoogleFonts.kantumruyPro(fontWeight: FontWeight.bold),
+      middleText: "តើអ្នកពិតជាចង់លុបទិន្នន័យរបស់ ${user.name} មែនទេ?",
+      middleTextStyle: GoogleFonts.kantumruyPro(),
+      textConfirm: "លុប",
+      textCancel: "បោះបង់",
+      confirmTextColor: Colors.white,
+      buttonColor: Colors.red,
+      onConfirm: () {
+        Get.back();
+        c.deleteData(user.id);
+      },
+    );
+  }
 
   Widget _headerText(String label) {
     return Text(

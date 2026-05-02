@@ -1,12 +1,10 @@
 import 'dart:convert';
 import 'package:cumnange_dei/views/Auth/Login.dart';
-import 'package:cumnange_dei/views/Auth/Welcom.dart';
 import 'package:http/http.dart' as http;
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
 class ApiService {
   static const String baseUrl = 'https://cumnage-dei-api.onrender.com/';
-//https://cumnage-dei-api.onrender.com/
 //http://10.0.2.2:8000/
   // មុខងារសម្រាប់រៀបចំ Header
   static Future<Map<String, String>> _getHeaders({bool isLogin = false}) async {
@@ -145,13 +143,5 @@ class ApiService {
     return response;
   }
 
-  //===============Logout====================
-  static Future<void> logout() async {
-  final box = GetStorage();
-  box.remove('access_token');
-  box.remove('refresh_token');
-  box.remove('user_data'); // បើមានរក្សាទុកព័ត៌មាន User
-  Get.offAll(WelcomeScreen()); // ឬ WelcomeScreen 
-}
 
 }

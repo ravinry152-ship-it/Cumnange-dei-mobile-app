@@ -1,7 +1,7 @@
 // ignore_for_file: deprecated_member_use
+import 'package:cumnange_dei/controller/Auth_controller/Logout.dart';
 import 'package:cumnange_dei/controller/system_List/system_list_controller.dart';
 import 'package:cumnange_dei/views/AI/image_to_json.dart';
-import 'package:cumnange_dei/views/Auth/Login.dart';
 import 'package:cumnange_dei/views/Crud/user_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -66,7 +66,7 @@ class SystemList extends StatelessWidget {
                 backgroundColor: Colors.black12
               ),
               onPressed: (){
-                Get.to(Login());
+               Logout.logout();
               },
                 child: Text(
                   "ចាកចេញ",
