@@ -42,6 +42,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   flutter_native_splash: ^2.4.7
+  printing: ^5.14.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -104,4 +105,8 @@ flutter:
   # see https://flutter.dev/to/font-from-package
 # dev_dependencies:
 #   flutter_launcher_icons: ^0.13.1
+  fonts:
+    - family: KhmerOS
+      fonts:
+        - asset: assets/fonts/Battambang/Battambang-Black.ttf
 

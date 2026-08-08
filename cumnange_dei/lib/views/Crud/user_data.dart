@@ -2,6 +2,7 @@
 import 'package:cumnange_dei/controller/Post/post_data_controller.dart';
 import 'package:cumnange_dei/controller/Post/user_data_controller.dart';
 import 'package:cumnange_dei/controller/detaildata/detail_user_data.dart';
+import 'package:cumnange_dei/views/Crud/data_to_pdf.dart';
 import 'package:cumnange_dei/views/Crud/post_data.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -74,16 +75,30 @@ class _UserDataState extends State<UserData> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                "បញ្ជីឈ្មោះភ្ញៀវ",
-                style: GoogleFonts.kantumruyPro(
-                  color: Colors.orange,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    "បញ្ជីឈ្មោះភ្ញៀវ",
+                    style: GoogleFonts.kantumruyPro(
+                      color: Colors.orange,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-              ),
+                IconButton(
+                  onPressed: () {
+                    dataToPdf.exportPdf(
+                      data: controller.filteredUserdata,
+                      total: _totalPrice,
+                    );
+                  },
+                  icon: const Icon(Icons.picture_as_pdf, color: Colors.red),
+                ),
+              ],
             ),
             Expanded(
               child: RefreshIndicator(
@@ -207,4 +222,5 @@ class _UserDataState extends State<UserData> {
       ),
     );
   }
+  final dataToPdf = DataToPdfService();
 }
