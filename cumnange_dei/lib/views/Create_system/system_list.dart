@@ -14,7 +14,7 @@ class SystemList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:Colors.grey[100] ,
+      backgroundColor:Colors.grey[100],
       appBar: AppBar(
         title: Text(
           "បញ្ជីប្រព័ន្ធគ្រប់គ្រងភ្ញៀវ",
@@ -147,8 +147,8 @@ class SystemList extends StatelessWidget {
                   final item = controller.learningList[index];
                   return buildCard(
                    icon: Icons.book,
-                  title: item.name, 
-                 subtitle: "អ្នកប្រើប្រាស់: ${item.user}", 
+                   title: "ល្មោះប្រព័ន្ធគ្រប់គ្រង",
+                   subtitle: item.name
                );
                 }
                  ) , 
@@ -192,6 +192,8 @@ class SystemList extends StatelessWidget {
             subtitle,
             style: GoogleFonts.kantumruyPro(
               color: Colors.grey[600],
+              fontSize: 20,
+              fontWeight: FontWeight.bold
             ),
           ),
           trailing: const Icon(Icons.arrow_forward_ios, size: 16),

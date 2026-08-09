@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
 class ApiService {
   static const String baseUrl = 'https://cumnage-dei-api.onrender.com/';
+  // static const String baseUrl = 'http://10.0.2.2:8000/';
 //http://10.0.2.2:8000/
   // មុខងារសម្រាប់រៀបចំ Header
   static Future<Map<String, String>> _getHeaders({bool isLogin = false}) async {
@@ -143,5 +144,36 @@ class ApiService {
     return response;
   }
 
+  // --- មុខងារ Upload រូបភាព (Multipart/form-data) ---
+  static Future<http.Response> uploadImage({
+    required String endpoint,
+    required String filePath,
+    String fieldName = 'image',
+  }) async {
+    final url = Uri.parse('$baseUrl$endpoint');
+
+    Future<http.Response> _send() async {
+      final request = http.MultipartRequest('POST', url);
+      final headers = await _getHeaders();
+      headers.remove('Content-Type');
+      request.headers.addAll(headers);
+      request.files.add(
+        await http.MultipartFile.fromPath(fieldName, filePath),
+      );
+      final streamed = await request.send();
+      return http.Response.fromStream(streamed);
+    }
+
+    var response = await _send();
+
+    // ប្រសិនបើ Token ហួសកំណត់ (401) ព្យាយាម Refresh និងហៅម្ដងទៀត
+    if (response.statusCode == 401) {
+      bool isRefreshed = await _refreshToken();
+      if (isRefreshed) {
+        response = await _send();
+      }
+    }
+    return response;
+  }
 
 }
